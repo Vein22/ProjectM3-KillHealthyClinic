@@ -6,4 +6,5 @@ const usersRouter = (0, express_1.Router)();
 usersRouter.get("/", usersController_1.getAllUsers);
 usersRouter.get("/:id", usersController_1.getUserById);
 usersRouter.post("/register", usersController_1.register);
+usersRouter.post("/login", usersController_1.login);
 exports.default = usersRouter;

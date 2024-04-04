@@ -9,9 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.register = exports.getUserById = exports.getAllUsers = void 0;
+exports.login = exports.register = exports.getUserById = exports.getAllUsers = void 0;
+const usersServices_1 = require("../services/usersServices");
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("vamos a obtener todos los usuarios");
+    const users = yield (0, usersServices_1.getUsersService)();
+    res.status(200).json(users);
 });
 exports.getAllUsers = getAllUsers;
 const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -19,6 +21,12 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.getUserById = getUserById;
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("vamos a crer un nuevo usuario");
+    const { name, email, birthdate, nDni, credentialsId } = req.body;
+    const userId = yield (0, usersServices_1.createUserService)({ name, email, birthdate, nDni, credentialsId });
+    res.status(201).json({ message: "Successfully created user.", userId });
 });
 exports.register = register;
+const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.send("vamos a logear al usuario");
+});
+exports.login = login;

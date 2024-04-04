@@ -9,7 +9,7 @@ turnsRouter.get("/:id", getTurnById);
 
 turnsRouter.post("/schedule", schedule);
 
-turnsRouter.delete("/cancel", cancel);
+turnsRouter.delete("/cancel/:id", cancel);
 
 export default turnsRouter;
 

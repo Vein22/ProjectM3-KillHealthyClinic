@@ -1,6 +1,5 @@
 
-interface IUser {
-    id: number,
+interface UserDto {
     name: string,
     email: string,
     birthdate: number,
@@ -8,5 +7,4 @@ interface IUser {
     credentialsId: number,
   }
   
-  export default IUser;
-  
+  export default UserDto;

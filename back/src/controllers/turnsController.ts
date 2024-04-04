@@ -1,14 +1,30 @@
 import { Request, Response } from "express";
+import ITurn from "../interfaces/ITurn";
+import { getTurnsService, getTurnByIdService, createTurnService, cancelTurnByIdService } from "../services/turnsServices"
 
 export const getAllTurns = async (req: Request, res: Response) => {
-    res.send("vamos a obtener todos los turnos");
+    const turns: ITurn[] = await getTurnsService();
+    res.status(200).json(turns);
 };
+
 export const getTurnById = async (req: Request, res: Response) => {
-    res.send("vamos a obtener un turno por id");
+    const turnId = parseInt(req.params.id);
+    const turn = await getTurnByIdService(turnId);
+    if (turn) {
+        res.json(turn);
+    } else {
+        res.status(404).json({ message: 'Turn not found.' }) 
+    }
 };
+
 export const schedule = async (req: Request, res: Response) => {
-    res.send("vamos a agendar un turno");
+    const {date, time, userId, status} = req.body;
+    const turnId = await createTurnService({date, time, userId, status});
+    res.status(201).json({message: "Successfully created turn.", turnId})
 };
+
 export const cancel = async (req: Request, res: Response) => {
-    res.send("vamos a cancelar un turno");
+    const turnId = parseInt(req.params.id);
+    await cancelTurnByIdService(turnId);
+    res.status(200).json({ message: "Turn canceled successfully." });
 };
