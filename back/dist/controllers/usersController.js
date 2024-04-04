@@ -17,7 +17,14 @@ const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.getAllUsers = getAllUsers;
 const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("vamos a obtener un usuario por id");
+    const userId = parseInt(req.params.id);
+    const user = yield (0, usersServices_1.getUserByIdService)(userId);
+    if (user) {
+        res.json(user);
+    }
+    else {
+        res.status(404).json({ message: 'User not found.' });
+    }
 });
 exports.getUserById = getUserById;
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

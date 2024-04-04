@@ -6,5 +6,5 @@ const turnsRouter = (0, express_1.Router)();
 turnsRouter.get("/", turnsController_1.getAllTurns);
 turnsRouter.get("/:id", turnsController_1.getTurnById);
 turnsRouter.post("/schedule", turnsController_1.schedule);
-turnsRouter.delete("/cancel", turnsController_1.cancel);
+turnsRouter.delete("/cancel/:id", turnsController_1.cancel);
 exports.default = turnsRouter;

@@ -9,33 +9,34 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cancelTurnById = exports.createTurn = exports.getTurnById = exports.getTurns = void 0;
+exports.cancelTurnByIdService = exports.createTurnService = exports.getTurnByIdService = exports.getTurnsService = void 0;
 let turnsDB = [];
-const getTurns = () => __awaiter(void 0, void 0, void 0, function* () {
+const getTurnsService = () => __awaiter(void 0, void 0, void 0, function* () {
     return turnsDB;
 });
-exports.getTurns = getTurns;
-const getTurnById = (turnID) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getTurnsService = getTurnsService;
+const getTurnByIdService = (turnID) => __awaiter(void 0, void 0, void 0, function* () {
     return turnsDB.find(turn => turn.id === turnID) || null;
 });
-exports.getTurnById = getTurnById;
-const createTurn = (date, time, userId, status) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getTurnByIdService = getTurnByIdService;
+const createTurnService = (turnData) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = turnData;
     if (userId === null || userId === undefined) {
         throw new Error("User ID is required to create a turn.");
     }
     const nextId = turnsDB.length + 1;
     const newTurn = {
         id: nextId,
-        date,
-        time,
-        userId,
-        status
+        date: turnData.date,
+        time: turnData.time,
+        userId: turnData.userId,
+        status: turnData.status
     };
     turnsDB.push(newTurn);
     return nextId;
 });
-exports.createTurn = createTurn;
-const cancelTurnById = (turnID) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createTurnService = createTurnService;
+const cancelTurnByIdService = (turnID) => __awaiter(void 0, void 0, void 0, function* () {
     const turn = turnsDB.find(turn => turn.id === turnID);
     if (turn) {
         turn.status = "cancelled";
@@ -43,4 +44,4 @@ const cancelTurnById = (turnID) => __awaiter(void 0, void 0, void 0, function* (
     }
     return "The specified turn could not be found";
 });
-exports.cancelTurnById = cancelTurnById;
+exports.cancelTurnByIdService = cancelTurnByIdService;
