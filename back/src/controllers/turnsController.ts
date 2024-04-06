@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import ITurn from "../interfaces/ITurn";
+import { Turn } from "../entities/Turn";
 import { getTurnsService, getTurnByIdService, createTurnService, cancelTurnByIdService } from "../services/turnsServices"
 
 export const getAllTurns = async (req: Request, res: Response) => {
-    const turns: ITurn[] = await getTurnsService();
+    const turns: Turn[] = await getTurnsService();
     res.status(200).json(turns);
 };
 
@@ -26,5 +26,5 @@ export const schedule = async (req: Request, res: Response) => {
 export const cancel = async (req: Request, res: Response) => {
     const turnId = parseInt(req.params.id);
     await cancelTurnByIdService(turnId);
-    res.status(200).json({ message: "Turn canceled successfully." });
+    res.status(200).json({ message: "Turn cancelled successfully.", turnId});
 };

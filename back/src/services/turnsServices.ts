@@ -1,43 +1,46 @@
-import ITurn from "../interfaces/ITurn";
 import TurnDto from "../dto/TurnDto"
+import { TurnModel, UserModel } from "../config/data-source";
+import { Turn } from "../entities/Turn";
 
-let turnsDB: ITurn[] = [];
 
-export const getTurnsService = async (): Promise<ITurn[]> => {
-    return turnsDB
+export const getTurnsService = async (): Promise<Turn[]> => {
+    const turns = await TurnModel.find({
+        relations:{
+            user: true
+        }
+    });
+    return turns
 };
 
-export const getTurnByIdService = async (turnID: number): Promise<ITurn | null> => {
-    return turnsDB.find(turn => turn.id === turnID) || null;
+export const getTurnByIdService = async (turnID: number): Promise<Turn | null> => {
+    const turn = await TurnModel.findOneBy({
+        id: turnID
+    });
+    return turn;
 };
 
-export const createTurnService = async (turnData: TurnDto): Promise<number> => {
-    const { userId } = turnData;
-    if(userId === null || userId === undefined) {
-        throw new Error ("User ID is required to create a turn.")
+export const createTurnService = async (turnData: TurnDto): Promise<Turn> => {
+    const createTurn = await TurnModel.create(turnData);
+    const result = await TurnModel.save(createTurn);
+
+    const user = await UserModel.findOneBy({
+        id: turnData.userId
+    })
+
+    if(user){
+        createTurn.user = user;
+        TurnModel.save(createTurn)
     }
 
-    const nextId = turnsDB.length + 1;
-
-    const newTurn: ITurn = {
-        id: nextId,
-        date: turnData.date, 
-        time: turnData.time, 
-        userId: turnData.userId, 
-        status: turnData.status
-    };
-
-    turnsDB.push(newTurn);
-
-    return nextId;
+    return createTurn;
 }
 
-export const cancelTurnByIdService = async (turnID: number): Promise<string> => {
-    const turn = turnsDB.find(turn => turn.id === turnID)
+export const cancelTurnByIdService = async (turnID: number): Promise<void> => {
 
-    if (turn) {
-        turn.status = "cancelled";
-        return "Turn cancelled successfully"
-    }
-        return "The specified turn could not be found"
+        const turn = await TurnModel.findOne({ where: { id: turnID } });
+
+        if (turn) {
+            turn.status = "cancelled";
+            await TurnModel.save(turn);
+        }
 };

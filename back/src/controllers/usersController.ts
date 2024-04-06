@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import IUser from "../interfaces/IUser";
+import { User } from "../entities/User";
 import { getUsersService, getUserByIdService, createUserService } from "../services/usersServices"
 
 
 export const getAllUsers = async (req: Request, res: Response) => {
-    const users: IUser[] = await getUsersService();
+    const users: User[] = await getUsersService();
     res.status(200).json(users);
 };
 

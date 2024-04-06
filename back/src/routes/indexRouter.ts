@@ -5,7 +5,7 @@ import auth from "../middlewares/auth"
 
 const indexRouter: Router = Router();
 
-indexRouter.use("/users", auth, usersRouter);
-indexRouter.use("/turns", auth, turnsRouter);
+indexRouter.use("/users", usersRouter);
+indexRouter.use("/turns", turnsRouter);
 
 export default indexRouter;

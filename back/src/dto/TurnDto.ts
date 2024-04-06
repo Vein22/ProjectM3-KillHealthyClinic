@@ -1,8 +1,8 @@
-interface ITurnDto {
+interface TurnDto {
     date: string; 
     time: string; 
     userId: number; 
     status: "active" | "cancelled"; 
 }
 
-export default ITurnDto;
+export default TurnDto;
