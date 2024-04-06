@@ -36,6 +36,6 @@ exports.schedule = schedule;
 const cancel = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const turnId = parseInt(req.params.id);
     yield (0, turnsServices_1.cancelTurnByIdService)(turnId);
-    res.status(200).json({ message: "Turn canceled successfully." });
+    res.status(200).json({ message: "Turn cancelled successfully.", turnId });
 });
 exports.cancel = cancel;

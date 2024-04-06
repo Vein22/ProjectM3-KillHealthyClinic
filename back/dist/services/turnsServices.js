@@ -10,38 +10,41 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cancelTurnByIdService = exports.createTurnService = exports.getTurnByIdService = exports.getTurnsService = void 0;
-let turnsDB = [];
+const data_source_1 = require("../config/data-source");
 const getTurnsService = () => __awaiter(void 0, void 0, void 0, function* () {
-    return turnsDB;
+    const turns = yield data_source_1.TurnModel.find({
+        relations: {
+            user: true
+        }
+    });
+    return turns;
 });
 exports.getTurnsService = getTurnsService;
 const getTurnByIdService = (turnID) => __awaiter(void 0, void 0, void 0, function* () {
-    return turnsDB.find(turn => turn.id === turnID) || null;
+    const turn = yield data_source_1.TurnModel.findOneBy({
+        id: turnID
+    });
+    return turn;
 });
 exports.getTurnByIdService = getTurnByIdService;
 const createTurnService = (turnData) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userId } = turnData;
-    if (userId === null || userId === undefined) {
-        throw new Error("User ID is required to create a turn.");
+    const createTurn = yield data_source_1.TurnModel.create(turnData);
+    const result = yield data_source_1.TurnModel.save(createTurn);
+    const user = yield data_source_1.UserModel.findOneBy({
+        id: turnData.userId
+    });
+    if (user) {
+        createTurn.user = user;
+        data_source_1.TurnModel.save(createTurn);
     }
-    const nextId = turnsDB.length + 1;
-    const newTurn = {
-        id: nextId,
-        date: turnData.date,
-        time: turnData.time,
-        userId: turnData.userId,
-        status: turnData.status
-    };
-    turnsDB.push(newTurn);
-    return nextId;
+    return createTurn;
 });
 exports.createTurnService = createTurnService;
 const cancelTurnByIdService = (turnID) => __awaiter(void 0, void 0, void 0, function* () {
-    const turn = turnsDB.find(turn => turn.id === turnID);
+    const turn = yield data_source_1.TurnModel.findOne({ where: { id: turnID } });
     if (turn) {
         turn.status = "cancelled";
-        return "Turn cancelled successfully";
+        yield data_source_1.TurnModel.save(turn);
     }
-    return "The specified turn could not be found";
 });
 exports.cancelTurnByIdService = cancelTurnByIdService;

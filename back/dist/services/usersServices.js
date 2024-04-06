@@ -10,28 +10,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUserService = exports.getUserByIdService = exports.getUsersService = void 0;
-const credentialsServices_1 = require("./credentialsServices");
-let usersDB = [];
+const data_source_1 = require("../config/data-source");
 const getUsersService = () => __awaiter(void 0, void 0, void 0, function* () {
-    return usersDB;
+    const users = yield data_source_1.UserModel.find({
+        relations: {
+            turns: true
+        }
+    });
+    return users;
 });
 exports.getUsersService = getUsersService;
 const getUserByIdService = (userID) => __awaiter(void 0, void 0, void 0, function* () {
-    return usersDB.find(user => user.id === userID) || null;
+    const user = yield data_source_1.UserModel.findOneBy({
+        id: userID
+    });
+    return user;
 });
 exports.getUserByIdService = getUserByIdService;
 const createUserService = (userData) => __awaiter(void 0, void 0, void 0, function* () {
-    const nextId = usersDB.length + 1;
-    (0, credentialsServices_1.createCredentials)(`user${nextId}`, `password${nextId}`);
-    const newUser = {
-        id: nextId,
-        name: userData.name,
-        email: userData.email,
-        birthdate: userData.birthdate,
-        nDni: userData.nDni,
-        credentialsId: userData.credentialsId
-    };
-    usersDB.push(newUser);
-    return newUser;
+    const user = yield data_source_1.UserModel.create(userData);
+    const result = yield data_source_1.UserModel.save(user);
+    return user;
 });
 exports.createUserService = createUserService;
