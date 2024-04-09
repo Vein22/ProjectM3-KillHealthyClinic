@@ -34,6 +34,6 @@ __decorate([
 ], Credential.prototype, "password", void 0);
 exports.Credential = Credential = __decorate([
     (0, Entity_1.Entity)({
-        name: "Credentials"
+        name: "credentials"
     })
 ], Credential);

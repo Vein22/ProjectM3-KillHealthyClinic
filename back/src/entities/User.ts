@@ -32,8 +32,5 @@ export class User {
 
     @OneToMany(()=> Turn, (turn => turn.user))
     turns: Turn[]
-    // @OneToOne(() => Turn)
-    // @JoinColumn()
-    // turn: Turn 
   }
   

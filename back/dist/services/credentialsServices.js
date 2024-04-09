@@ -10,24 +10,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateCredentials = exports.createCredentials = void 0;
-const credentialsDB = [];
+const data_source_1 = require("../config/data-source");
 const createCredentials = (username, password) => __awaiter(void 0, void 0, void 0, function* () {
-    const nextId = credentialsDB.length + 1;
-    const newCredential = {
-        id: nextId,
-        username,
-        password
-    };
-    credentialsDB.push(newCredential);
-    return nextId;
+    const newCredential = data_source_1.CredentialModel.create({ username, password });
+    yield data_source_1.CredentialModel.save(newCredential);
+    return newCredential.id;
 });
 exports.createCredentials = createCredentials;
 const validateCredentials = (username, password) => __awaiter(void 0, void 0, void 0, function* () {
-    for (const credential of credentialsDB) {
-        if (credential.username === username && credential.password === password) {
-            return credential.id;
-        }
-    }
-    return null;
+    const credential = yield data_source_1.CredentialModel.findOne({ where: { username, password } });
+    return credential ? credential.id : null;
 });
 exports.validateCredentials = validateCredentials;

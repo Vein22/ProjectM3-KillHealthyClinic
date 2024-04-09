@@ -1,27 +1,13 @@
-import ICredential from "../interfaces/ICredential";
+import { CredentialModel } from "../config/data-source";
 
-const credentialsDB: ICredential[] = [];
 
 export const createCredentials = async (username: string, password: string): Promise<number> => {
-
-    const nextId = credentialsDB.length + 1;
-
-    const newCredential: ICredential = {
-        id: nextId,
-        username,
-        password
-    };
-
-    credentialsDB.push(newCredential);
-
-    return nextId;
+    const newCredential = CredentialModel.create({ username, password });
+    await CredentialModel.save(newCredential);
+    return newCredential.id;
 }
 
 export const validateCredentials = async (username: string, password: string): Promise<number | null> => {
-    for (const credential of credentialsDB) {
-        if (credential.username === username && credential.password === password) {
-            return credential.id;
-        }
-    }
-    return null;
+    const credential = await CredentialModel.findOne({ where: { username, password } });
+    return credential ? credential.id : null;
 }

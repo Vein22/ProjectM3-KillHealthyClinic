@@ -4,7 +4,7 @@ import { Entity } from "typeorm/decorator/entity/Entity"
 
 
 @Entity({
-    name:"Credentials"
+    name:"credentials"
 })
 
 export class Credential {
