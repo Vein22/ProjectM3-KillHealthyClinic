@@ -2,6 +2,7 @@ import { JoinColumn, OneToMany, OneToOne } from "typeorm"
 import { Column } from "typeorm/decorator/columns/Column"
 import { PrimaryGeneratedColumn } from "typeorm/decorator/columns/PrimaryGeneratedColumn"
 import { Entity } from "typeorm/decorator/entity/Entity"
+import { Credential } from "./Credential"
 import { Turn } from "./Turn"
 
 
@@ -27,10 +28,17 @@ export class User {
     @Column()
     nDni: string
 
-    @Column("integer")
-    credentialsId: number
+    @Column()
+    username: string
+
+    @Column()
+    password: string
 
     @OneToMany(()=> Turn, (turn => turn.user))
     turns: Turn[]
+
+    @OneToOne(() => Credential, (credential => credential.user))
+    @JoinColumn()
+    credential: Credential;
   }
   

@@ -1,6 +1,8 @@
+import { JoinColumn, OneToOne } from "typeorm"
 import { Column } from "typeorm/decorator/columns/Column"
 import { PrimaryGeneratedColumn } from "typeorm/decorator/columns/PrimaryGeneratedColumn"
 import { Entity } from "typeorm/decorator/entity/Entity"
+import { User } from "./User"
 
 
 @Entity({
@@ -20,4 +22,8 @@ export class Credential {
         length: 100
     })
     password: string
+
+    @OneToOne(() => User, (user => user.credential))
+    @JoinColumn()
+    user: User;
 }

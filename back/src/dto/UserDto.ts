@@ -4,7 +4,8 @@ interface UserDto {
     email: string,
     birthdate: number,
     nDni: string,
-    credentialsId: number,
+    username: string,
+    password: string
   }
   
   export default UserDto;

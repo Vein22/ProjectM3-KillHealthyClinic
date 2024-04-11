@@ -1,6 +1,5 @@
-import IUser from "../interfaces/IUser";
 import UserDto from "../dto/UserDto"
-import { AppDataSource, UserModel } from "../config/data-source";
+import { AppDataSource, CredentialModel, UserModel } from "../config/data-source";
 import { User } from "../entities/User";
 
 export const getUsersService = async (): Promise<User[]> => {
@@ -24,3 +23,5 @@ export const createUserService = async (userData: UserDto): Promise<User> => {
     const result = await UserModel.save(user);
     return user;
 }
+
+
