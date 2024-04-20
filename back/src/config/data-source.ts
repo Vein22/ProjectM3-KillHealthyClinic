@@ -2,14 +2,15 @@ import { DataSource } from "typeorm";
 import { Credential } from "../entities/Credential";
 import { Turn } from "../entities/Turn";
 import { User } from "../entities/User";
+import { HOST,PORTDB, USERNAMEDB, PASSWORD, DATABASE } from "./envs";
 
 export const AppDataSource = new DataSource({
     type: "postgres",
-    host: "localhost",
-    port: 5432,
+    host: HOST,
+    port: Number(PORTDB),
     username: "postgres",
-    password: "program",
-    database: "demo_typeorm",
+    password: PASSWORD,
+    database: DATABASE,
     // dropSchema: true,
     synchronize: true,
     logging: false,
