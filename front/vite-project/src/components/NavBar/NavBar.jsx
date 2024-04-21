@@ -1,3 +1,5 @@
+import Styles from "./NavBar.module.css"
+
 const NavBar = () => {
    return (
      <nav>

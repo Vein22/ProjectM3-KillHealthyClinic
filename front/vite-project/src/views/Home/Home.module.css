@@ -1,0 +1,19 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.HomeH1 {
+    margin: 12px 50px;
+    font-size: 40px;
+    font-family: Roboto;
+}
+
+img {
+    height: 100px;
+    padding-right: 860px;
+    margin: 12px;
+}
+

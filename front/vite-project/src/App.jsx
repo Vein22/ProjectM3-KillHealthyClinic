@@ -1,7 +1,7 @@
 import { BrowserRouter } from "react-router-dom"
 import Home from "./views/Home/Home"
 import MisTurnos from "./views/MisTurnos/MisTurnos"
-import "./index.css"
+import styles from "./App.module.css"
 import NavBar from "./components/NavBar/NavBar"
 
 function App() {

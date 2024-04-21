@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 10px;
+    justify-content: center;
+}
+
+.tituloH1 {
+    display: flex;
+    justify-content: center;
+    font-family: Roboto;
+    margin-bottom: -30px;
+}
+
+.tituloH3 {
+    display: flex;
+    justify-content: center;
+    font-family: Roboto;
+    font-size: 150%;
+    margin-bottom: -25px;
+}
