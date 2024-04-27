@@ -1,13 +1,16 @@
 import Styles from "./NavBar.module.css"
+import Login from "../../views/Login/Login";
+import Register from "../../views/Register/Register";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
    return (
      <nav>
       <div>
-      <a href="/">HOME</a>
-        <a href="/mis-turnos">MIS TURNOS</a>
-        <a href="/about">ABOUT</a>
-        <a href="/contacto">CONTACTO</a>
+         <Link to="/">HOME</Link>
+         <Link to="/mis-turnos">MIS TURNOS</Link>
+         <Link to="/about">ABOUT</Link>
+         <Link to="/contact">CONTACT</Link>
       </div>
      </nav>
     );
