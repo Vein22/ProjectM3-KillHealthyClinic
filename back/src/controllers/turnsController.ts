@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { TurnModel } from "../config/data-source";
 import { Turn } from "../entities/Turn";
-import { getTurnsService, getTurnByIdService, createTurnService, cancelTurnByIdService } from "../services/turnsServices"
+import { getTurnsService, getTurnsByUserIdService, createTurnService, cancelTurnByIdService } from "../services/turnsServices"
 
 export const getAllTurns = async (req: Request, res: Response) => {
     const turns: Turn[] = await getTurnsService();
@@ -9,10 +9,10 @@ export const getAllTurns = async (req: Request, res: Response) => {
 };
 
 export const getTurnById = async (req: Request, res: Response) => {
-    const turnId = parseInt(req.params.id);
-    const turn = await getTurnByIdService(turnId);
-    if (turn) {
-        res.json(turn);
+    const userId = parseInt(req.params.id);
+    const turns = await getTurnsByUserIdService(userId);
+    if (turns.length > 0) {
+        res.json(turns);
     } else {
         res.status(404).json({ message: 'Turn not found.' }) 
     }
@@ -34,10 +34,10 @@ export const schedule = async (req: Request, res: Response) => {
 };
 
 export const cancel = async (req: Request, res: Response) => {
-    const { turnId } = req.body; 
+    const turnId = parseInt(req.params.id);
 
     if (!turnId) {
-        return res.status(400).json({ message: "Turn ID is required in the request body." });
+        return res.status(400).json({ message: "Turn ID is required in the request URL." });
     }
     try {
         const existingTurn = await TurnModel.findOne({ where: { id: turnId } });
@@ -48,6 +48,6 @@ export const cancel = async (req: Request, res: Response) => {
         res.status(200).json({ message: "Turn canceled successfully." });
     } catch (error) {
         console.error("Error cancelling turn:", error);
-        res.status(404).json({ message: "Failed to cancel turn." });
+        res.status(500).json({ message: "Failed to cancel turn." });
     }
 };

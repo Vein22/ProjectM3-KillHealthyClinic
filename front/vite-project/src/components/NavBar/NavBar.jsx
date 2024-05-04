@@ -1,6 +1,4 @@
 import Styles from "./NavBar.module.css"
-import Login from "../../views/Login/Login";
-import Register from "../../views/Register/Register";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
@@ -11,6 +9,9 @@ const NavBar = () => {
          <Link to="/mis-turnos">MIS TURNOS</Link>
          <Link to="/about">ABOUT</Link>
          <Link to="/contact">CONTACT</Link>
+         <Link to="/crear-turno">CREAR TURNO</Link>
+         <Link to="/register">REGISTER</Link>
+         <Link to="/login">LOGIN</Link>
       </div>
      </nav>
     );

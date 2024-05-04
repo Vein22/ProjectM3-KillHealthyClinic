@@ -12,11 +12,11 @@ export const getTurnsService = async (): Promise<Turn[]> => {
     return turns
 };
 
-export const getTurnByIdService = async (turnID: number): Promise<Turn | null> => {
-    const turn = await TurnModel.findOneBy({
-        id: turnID
+export const getTurnsByUserIdService = async (userId: number): Promise<Turn[]> => {
+    const turns = await TurnModel.find({
+        where: { userId: userId }
     });
-    return turn;
+    return turns;
 };
 
 export const createTurnService = async (turnData: TurnDto): Promise<Turn> => {

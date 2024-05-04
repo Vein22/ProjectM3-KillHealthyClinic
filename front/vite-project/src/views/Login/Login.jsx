@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/userSlice";
 import Styles from "./Login.module.css"
 
 const Login = () => {
@@ -8,6 +10,8 @@ const Login = () => {
             username: "",
             password: ""
         });
+
+        const dispatch = useDispatch();
     
         const handleChange = (e) => {
             const { name, value } = e.target;
@@ -17,12 +21,13 @@ const Login = () => {
             });
         };
     
-        const handleSubmit = (e) => {
+        const handleSubmit =async (e) => {
             e.preventDefault();
     
             if (form.username && form.password) {
-                axios.post("http://localhost:3000/users/login", form)
+                const response = await axios.post("http://localhost:3000/users/login", form)
                     .then(response => {
+                        dispatch(setUser(response.data));
                         console.log("Inicio de sesión exitoso:", response.data);
                     })
                     .catch(error => {
